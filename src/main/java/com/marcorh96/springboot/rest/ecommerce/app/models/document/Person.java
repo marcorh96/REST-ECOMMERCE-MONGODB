@@ -16,7 +16,7 @@ import lombok.Data;
 public class Person {
 
 
-    private String name;
+    private String firstname;
 
     private String lastName;
 
@@ -27,8 +27,8 @@ public class Person {
     private String phone;
 
 
-    public Person(String name, String lastName, Date birthDate, String phone) {
-        this.name = name;
+    public Person(String firstname, String lastName, Date birthDate, String phone) {
+        this.firstname = firstname;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.phone = phone;

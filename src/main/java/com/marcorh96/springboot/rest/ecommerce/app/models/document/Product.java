@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mongodb.lang.NonNull;
 
 import lombok.Data;
 import java.io.Serializable;
@@ -19,12 +20,16 @@ public class Product implements Serializable {
     @Id
     private String id;
 
+    @NonNull
     private String name;
 
+    @NonNull
     private String description;
 
+    @NonNull
     private Double price;
 
+    @NonNull
     private Integer stock;
 
     

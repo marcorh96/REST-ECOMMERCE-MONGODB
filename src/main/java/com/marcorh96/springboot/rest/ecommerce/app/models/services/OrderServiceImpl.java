@@ -55,6 +55,11 @@ public class OrderServiceImpl implements IOrderService {
         return orderRepository.saveAll(orders);
     }
 
+    @Override
+    public List<Order> findOrdersByUserId(String userId) {
+        return orderRepository.findOrdersByUserId(userId);
+    }
+
    
 
     

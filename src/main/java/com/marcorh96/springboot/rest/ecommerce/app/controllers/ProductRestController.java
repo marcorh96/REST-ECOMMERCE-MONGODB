@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +31,19 @@ public class ProductRestController {
     private IProductService productService;
 
     @GetMapping("/products")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public List<Product> show() {
         return productService.findAll();
     }
 
     @GetMapping("/products/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Product showOrder(@PathVariable String id) {
         return productService.findById(id);
     }
 
     @PostMapping("/products")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> create(@RequestBody Product product) {
 
         Map<String, Object> response = new HashMap<>();
@@ -62,6 +66,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/products/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProduct(@PathVariable String id) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -77,6 +82,7 @@ public class ProductRestController {
     }
 
     @PutMapping("/products/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Product product) {
 
         Map<String, Object> response = new HashMap<>();

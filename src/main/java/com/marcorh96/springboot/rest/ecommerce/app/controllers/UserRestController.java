@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcorh96.springboot.rest.ecommerce.app.models.auth.UserLoginDTO;
+import com.marcorh96.springboot.rest.ecommerce.app.models.auth.UserResponseDTO;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.User;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IUserService;
 
@@ -31,16 +35,18 @@ public class UserRestController {
     private IUserService userService;
 
     @GetMapping("/users")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<User> showUsers() {
         return userService.findAll();
     }
 
     @GetMapping("/users/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public User showUser(@PathVariable String id) {
         return userService.findById(id);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/users/signin")
     public ResponseEntity<?> createUser(@RequestBody @Validated User user) {
 
         Map<String, Object> response = new HashMap<>();
@@ -60,6 +66,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> deleteUser(@PathVariable String id) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -75,6 +82,7 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}")
+    @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody User user) {
 
         Map<String, Object> response = new HashMap<>();
@@ -88,13 +96,21 @@ public class UserRestController {
             userService.save(actualUser);
 
         } catch (DataAccessException e) {
-            response.put("mensaje", "Data Base Exception!");
+            response.put("message", "Data Base Exception!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         response.put("message", "User has been updated successfully!");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
+        Map<String, Object> response = new HashMap<>();
+        UserResponseDTO  userTokenResponse = userService.login(user);
+        response.put("user", userTokenResponse);
+        return ResponseEntity.ok(response);
     }
 
 }

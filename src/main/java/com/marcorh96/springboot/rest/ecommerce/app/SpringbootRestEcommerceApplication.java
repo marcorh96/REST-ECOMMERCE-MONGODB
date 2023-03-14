@@ -15,6 +15,7 @@ import com.marcorh96.springboot.rest.ecommerce.app.models.document.ShippingAddre
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Order;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.OrderItem;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Product;
+import com.marcorh96.springboot.rest.ecommerce.app.models.document.Role;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.User;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Person;
 
@@ -66,14 +67,14 @@ public class SpringbootRestEcommerceApplication {
 			ShippingAddress shippingAddress2 = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
 			ShippingAddress shippingAddress3 = new ShippingAddress("La Juanja", "Iztapalapas", "CdMX", "Mexico", 10202);
 
-			User user1 = new User(person, "carlitos@gmail.com", "12345",
-					address, "ROLE_CUSTOMER");
+			User user1 = new User(person, "carlitos@gmail.com", "$2a$10$Tmz.mt/RjhkJlPAIjoYZ.egr//PVmYuen8EqdiyNZcqAxlEPo7lCq",
+					address, Role.ROLE_USER);
 
-			User user2 = new User(person2, "christo@gmail.com", "300210",
-					address2, "ROLE_CUSTOMER");
+			User user2 = new User(person2, "christo@gmail.com", "$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
+					address2, Role.ROLE_USER);
 
-			User user3 = new User(person3, "mannuuu1120@gmail.com", "12345",
-					address3, "ROLE_CUSTOMER");
+			User user3 = new User(person3, "mannuuu1120@gmail.com", "$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
+					address3, Role.ROLE_ADMIN);
 
 			Order order = new Order(
 					user1,

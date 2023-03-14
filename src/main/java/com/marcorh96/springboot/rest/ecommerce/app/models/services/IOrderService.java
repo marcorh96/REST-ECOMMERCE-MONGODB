@@ -16,6 +16,8 @@ public interface IOrderService {
 
     public void updateStock(List<OrderItem> orderItems);
 
+    public List<Order> findOrdersByUserId(String userId);
+
     public List<Order> saveAll(List<Order> orders);
 
 }

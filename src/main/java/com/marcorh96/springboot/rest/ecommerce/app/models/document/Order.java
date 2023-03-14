@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mongodb.lang.NonNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -25,10 +26,13 @@ public class Order implements Serializable {
 
     @JsonIgnoreProperties(value= {"orders", "hibernateLazyInitializer", "handler"}, allowSetters = true)
     @DBRef
+    @NonNull
     private User user;
 
+    @NonNull
     private List<OrderItem> items;
 
+    @NonNull
     private String status;
 
     

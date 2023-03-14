@@ -15,6 +15,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,16 +34,25 @@ public class OrderRestController {
     public IProductService productService;
 
     @GetMapping("/orders")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Order> showOrders() {
         return orderService.findAll();
     }
 
+    @GetMapping("/orders/user/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    public List<Order> showOrdersById(@PathVariable String id) {
+        return orderService.findOrdersByUserId(id);
+    }
+
     @GetMapping("/orders/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Order showOrder(@PathVariable String id) {
         return orderService.findById(id);
     }
 
     @PostMapping("/orders")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
         Order orderNew = null;
         Map<String, Object> response = new HashMap<>();
@@ -60,6 +70,7 @@ public class OrderRestController {
     }
 
     @DeleteMapping("/orders/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteOrder(@PathVariable String id) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -77,6 +88,7 @@ public class OrderRestController {
     }
 
     @PutMapping("/orders/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Order order) {
 
         Map<String, Object> response = new HashMap<>();
