@@ -32,6 +32,8 @@ public class Product implements Serializable {
     @NonNull
     private Integer stock;
 
+    private String photo;
+
     
     @Field("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

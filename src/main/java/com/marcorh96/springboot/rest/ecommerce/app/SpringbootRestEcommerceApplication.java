@@ -40,19 +40,20 @@ public class SpringbootRestEcommerceApplication {
 		SpringApplication.run(SpringbootRestEcommerceApplication.class, args);
 	}
 
-
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
 
-			/* mongoTemplate.dropCollection("orders");
-			mongoTemplate.dropCollection("products");
-			mongoTemplate.dropCollection("users"); */
+			/*
+			 * mongoTemplate.dropCollection("orders");
+			 * mongoTemplate.dropCollection("products");
+			 * mongoTemplate.dropCollection("users");
+			 */
 
 			Person person = new Person("Carlos", "Cantu", new Date(96, 0, 22), "809100820");
 			Person person2 = new Person("Christopher", "Lopez", new Date(95, 9, 12), "800559503");
 			Person person3 = new Person("Manuu", "Herrera", new Date(98, 11, 12), "005556269");
-
+			Person person4 = new Person("Marco", "Hernandez", new Date(96, 8, 20), "881200921");
 
 			Address address = new Address("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
 			Address address2 = new Address("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
@@ -62,18 +63,31 @@ public class SpringbootRestEcommerceApplication {
 			Product product2 = new Product("IPhone 13 Pro Max", "El viejo iphone 13 pro max", 20000.00, 50);
 			Product product3 = new Product("IPhone 12 Pro Max", "El nuevo iphone 12 pro max", 12500.00, 100);
 			Product product4 = new Product("IPhone 11 Pro Max", "El nuevo iphone 11 pro max", 10000.00, 10);
+			Product product5 = new Product("Samsung s23 Plus Ultra", "El nuevo samsung s23 plus ultra", 25000.00, 200);
+			Product product6 = new Product("Samsung s22 Plus Ultra", "El nuevo samsung s22 plus ultra", 20000.00, 150);
+			Product product7 = new Product("Samsung s21 Plus Ultra", "El nuevo samsung s21 plus ultra", 12500.00, 100);
+			Product product8 = new Product("Samsung s20 Plus Ultra", "El nuevo samsung s20 plus ultra", 10000.00, 10);
 
-			ShippingAddress shippingAddress = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
-			ShippingAddress shippingAddress2 = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
+			ShippingAddress shippingAddress = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico",
+					102030);
+			ShippingAddress shippingAddress2 = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico",
+					102030);
 			ShippingAddress shippingAddress3 = new ShippingAddress("La Juanja", "Iztapalapas", "CdMX", "Mexico", 10202);
 
-			User user1 = new User(person, "carlitos@gmail.com", "$2a$10$Tmz.mt/RjhkJlPAIjoYZ.egr//PVmYuen8EqdiyNZcqAxlEPo7lCq",
+			User user1 = new User(person, "carlitos@gmail.com",
+					"$2a$10$Tmz.mt/RjhkJlPAIjoYZ.egr//PVmYuen8EqdiyNZcqAxlEPo7lCq",
 					address, Role.ROLE_USER);
 
-			User user2 = new User(person2, "christo@gmail.com", "$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
+			User user2 = new User(person2, "christo@gmail.com",
+					"$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
 					address2, Role.ROLE_USER);
 
-			User user3 = new User(person3, "mannuuu1120@gmail.com", "$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
+			User user3 = new User(person3, "mannuuu1120@gmail.com",
+					"$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
+					address3, Role.ROLE_ADMIN);
+
+			User user4 = new User(person4, "marco@gmail.com",
+					"$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
 					address3, Role.ROLE_ADMIN);
 
 			Order order = new Order(
@@ -92,9 +106,8 @@ public class SpringbootRestEcommerceApplication {
 							new OrderItem(product1, 1, shippingAddress3)),
 					"In Hold");
 
-			
-			productService.saveAll(Arrays.asList(product1, product2, product3, product4));
-			userService.saveAll(Arrays.asList(user1, user2, user3));
+			productService.saveAll(Arrays.asList(product1, product2, product3, product4, product5, product6, product7, product8));
+			userService.saveAll(Arrays.asList(user1, user2, user3, user4));
 			orderService.saveAll(Arrays.asList(order, order2, order3));
 
 		};

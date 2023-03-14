@@ -2,6 +2,8 @@ package com.marcorh96.springboot.rest.ecommerce.app.models.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.marcorh96.springboot.rest.ecommerce.app.models.auth.UserLoginDTO;
@@ -22,5 +24,7 @@ public interface IUserService {
     public void deleteOrdersByUserId(String userId);
 
     public UserResponseDTO login(UserLoginDTO user);
+
+    public Page<User> findAll(Pageable pageable);
     
 }

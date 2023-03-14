@@ -1,6 +1,8 @@
 package com.marcorh96.springboot.rest.ecommerce.app.models.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +40,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> saveAll(List<Product> products){
         return productRepository.saveAll(products);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
 }
