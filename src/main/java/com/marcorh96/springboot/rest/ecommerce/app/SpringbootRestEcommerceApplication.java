@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Address;
+import com.marcorh96.springboot.rest.ecommerce.app.models.document.Category;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.ShippingAddress;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Order;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.OrderItem;
@@ -18,6 +19,7 @@ import com.marcorh96.springboot.rest.ecommerce.app.models.document.Product;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Role;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.User;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Person;
+import com.marcorh96.springboot.rest.ecommerce.app.models.document.Manufacturer;
 
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IUserService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IProductService;
@@ -59,14 +61,36 @@ public class SpringbootRestEcommerceApplication {
 			Address address2 = new Address("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
 			Address address3 = new Address("La Juanja", "Iztapalapas", "CdMX", "Mexico", 10202);
 
-			Product product1 = new Product("IPhone 14 Pro Max", "El nuevo iphone 14 pro max", 25000.00, 200);
-			Product product2 = new Product("IPhone 13 Pro Max", "El viejo iphone 13 pro max", 20000.00, 50);
-			Product product3 = new Product("IPhone 12 Pro Max", "El nuevo iphone 12 pro max", 12500.00, 100);
-			Product product4 = new Product("IPhone 11 Pro Max", "El nuevo iphone 11 pro max", 10000.00, 10);
-			Product product5 = new Product("Samsung s23 Plus Ultra", "El nuevo samsung s23 plus ultra", 25000.00, 200);
-			Product product6 = new Product("Samsung s22 Plus Ultra", "El nuevo samsung s22 plus ultra", 20000.00, 150);
-			Product product7 = new Product("Samsung s21 Plus Ultra", "El nuevo samsung s21 plus ultra", 12500.00, 100);
-			Product product8 = new Product("Samsung s20 Plus Ultra", "El nuevo samsung s20 plus ultra", 10000.00, 10);
+			Category category = new Category("Smartphone", "New");
+
+			Manufacturer manufacturer = new Manufacturer("apple", "iphone", "Apple California", "AT&T Mexico");
+
+			Manufacturer manufacturer2 = new Manufacturer("samsung", "Samsung Galaxy", "Samsung", "Telcel Mexico");
+
+			Product product1 = new Product("IPhone 14 Pro Max", "El nuevo iphone 14 pro max", category,
+					Arrays.asList("Procesador A16", "6.5 Pulgadas", "256gb", "6gb RAM"), 25000.00, 200,
+					"Space Gray", manufacturer);
+			Product product2 = new Product("IPhone 13 Pro Max", "El viejo iphone 13 pro max", category,
+					Arrays.asList("Procesador A15", "6.5 Pulgadas", "256gb", "5gb RAM"), 20000.00, 50,
+					"Black Space", manufacturer);
+			Product product3 = new Product("IPhone 12 Pro Max", "El nuevo iphone 12 pro max", category,
+					Arrays.asList("Procesador A14", "6.25 Pulgadas", "128gb", "4gb RAM"), 12500.00, 100,
+					"Red", manufacturer);
+			Product product4 = new Product("IPhone 11 Pro Max", "El nuevo iphone 11 pro max", category,
+					Arrays.asList("Procesador A13", "6 Pulgadas", "64gb", "4gb RAM"), 10000.00, 10,
+					"Dark blue", manufacturer);
+			Product product5 = new Product("Samsung s23 Plus Ultra", "El nuevo samsung s23 plus ultra", category,
+					Arrays.asList("Procesador SnapDragon 865", "7 Pulgadas", "512gb", "12gb RAM"),
+					25000.00, 200, "Purple", manufacturer2);
+			Product product6 = new Product("Samsung s22 Plus Ultra", "El nuevo samsung s22 plus ultra", category,
+					Arrays.asList("Procesador SnapDragon 855", "6.5 Pulgadas", "256gb", "8gb RAM"),
+					20000.00, 150, "White", manufacturer2);
+			Product product7 = new Product("Samsung s21 Plus Ultra", "El nuevo samsung s21 plus ultra", category,
+					Arrays.asList("Procesador SnapDragon 845", "6.48 Pulgadas", "128gb", "6gb RAM"),
+					12500.00, 100, "Black", manufacturer2);
+			Product product8 = new Product("Samsung s20 Plus Ultra", "El nuevo samsung s20 plus ultra", category,
+					Arrays.asList("Procesador SnapDragon 825", "6.2 Pulgadas", "64gb", "4gb RAM"),
+					10000.00, 10, "Dark blue", manufacturer2);
 
 			ShippingAddress shippingAddress = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico",
 					102030);
@@ -106,7 +130,8 @@ public class SpringbootRestEcommerceApplication {
 							new OrderItem(product1, 1, shippingAddress3)),
 					"In Hold");
 
-			productService.saveAll(Arrays.asList(product1, product2, product3, product4, product5, product6, product7, product8));
+			productService.saveAll(
+					Arrays.asList(product1, product2, product3, product4, product5, product6, product7, product8));
 			userService.saveAll(Arrays.asList(user1, user2, user3, user4));
 			orderService.saveAll(Arrays.asList(order, order2, order3));
 

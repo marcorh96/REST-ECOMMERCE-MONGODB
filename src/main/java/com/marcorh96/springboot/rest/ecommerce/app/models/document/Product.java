@@ -12,6 +12,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Document(collection = "products")
@@ -27,23 +28,43 @@ public class Product implements Serializable {
     private String description;
 
     @NonNull
+    private Category category;
+
+    @NonNull
+    private List<String> features;
+
+    @NonNull
     private Double price;
 
     @NonNull
     private Integer stock;
 
+    @NonNull
+    private String color;
+
+    @NonNull
+    private Manufacturer manufacturer;
+
     private String photo;
 
     
-    @Field("created_at")
+    @Field(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdAt;
 
-    public Product(String name, String description, Double price, Integer stock) {
+    @Field(name = "updated_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date updatedAt;
+
+    public Product(String name, String description, Category category, List<String> features,Double price, Integer stock, String color, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;
+        this.category = category;
+        this.features = features;
         this.price = price;
         this.stock = stock;
+        this.color = color;
+        this.manufacturer = manufacturer;
         this.createdAt = new Date();
 
     }

@@ -44,7 +44,7 @@ public class User implements Serializable, UserDetails {
     @NonNull
     private Role role;
 
-    @Field("created_at")
+    @Field(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdAt;
 

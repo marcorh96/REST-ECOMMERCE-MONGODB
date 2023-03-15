@@ -111,12 +111,18 @@ public class ProductRestController {
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody Product product) {
 
         Map<String, Object> response = new HashMap<>();
+        Product actualProduct = null;
         try {
-            Product actualProduct = productService.findById(id);
+            actualProduct = productService.findById(id);
             actualProduct.setName(product.getName());
             actualProduct.setDescription(product.getDescription());
+            actualProduct.setCategory(product.getCategory());
+            actualProduct.setFeatures(actualProduct.getFeatures());
             actualProduct.setPrice(product.getPrice());
             actualProduct.setStock(product.getStock());
+            actualProduct.setColor(product.getColor());
+            actualProduct.setManufacturer(product.getManufacturer());
+            actualProduct.setUpdatedAt(new Date());
             productService.save(actualProduct);
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");

@@ -36,7 +36,7 @@ public class Order implements Serializable {
     private String status;
 
     
-    @Field("created_at")
+    @Field(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdAt = new Date();
 
