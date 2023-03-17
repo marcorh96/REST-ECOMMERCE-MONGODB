@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -29,6 +30,7 @@ public class User implements Serializable, UserDetails {
     private String id;
 
     @NonNull
+    @DBRef
     private Person person;
 
     @NonNull
@@ -39,6 +41,7 @@ public class User implements Serializable, UserDetails {
     private String password;
 
     @NonNull
+    @DBRef
     private Address address;
 
     @NonNull

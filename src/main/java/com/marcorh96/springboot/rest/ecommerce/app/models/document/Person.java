@@ -2,10 +2,9 @@ package com.marcorh96.springboot.rest.ecommerce.app.models.document;
 
 import java.util.Date;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,6 +14,8 @@ import lombok.Data;
 @Document(collection = "persons")
 public class Person {
 
+    @Id
+    private String id;
 
     private String firstname;
 

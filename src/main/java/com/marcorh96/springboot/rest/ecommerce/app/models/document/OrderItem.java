@@ -16,6 +16,7 @@ public class OrderItem {
 
     private Integer quantity;
 
+    @DBRef
     private ShippingAddress shippingAddress;
 
     public OrderItem(Product product, Integer quantity, ShippingAddress shippingAddress) {

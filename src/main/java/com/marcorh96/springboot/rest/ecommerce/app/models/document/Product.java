@@ -2,6 +2,7 @@ package com.marcorh96.springboot.rest.ecommerce.app.models.document;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -9,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mongodb.lang.NonNull;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 import java.util.Date;
@@ -16,6 +19,7 @@ import java.util.List;
 
 @Data
 @Document(collection = "products")
+@NoArgsConstructor
 public class Product implements Serializable {
 
     @Id
@@ -28,6 +32,7 @@ public class Product implements Serializable {
     private String description;
 
     @NonNull
+    @DBRef
     private Category category;
 
     @NonNull
@@ -43,6 +48,7 @@ public class Product implements Serializable {
     private String color;
 
     @NonNull
+    @DBRef
     private Manufacturer manufacturer;
 
     private String photo;

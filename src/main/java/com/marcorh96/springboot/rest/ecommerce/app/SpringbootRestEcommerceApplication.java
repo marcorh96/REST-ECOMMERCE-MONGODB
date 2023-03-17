@@ -10,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import com.marcorh96.springboot.rest.ecommerce.app.models.dao.AddressRepository;
+import com.marcorh96.springboot.rest.ecommerce.app.models.dao.CategoryRepository;
+import com.marcorh96.springboot.rest.ecommerce.app.models.dao.ManufacturerRepository;
+import com.marcorh96.springboot.rest.ecommerce.app.models.dao.PersonRepository;
+import com.marcorh96.springboot.rest.ecommerce.app.models.dao.ShippingAddressRepository;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Address;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Category;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.ShippingAddress;
@@ -36,6 +41,18 @@ public class SpringbootRestEcommerceApplication {
 	private IUserService userService;
 
 	@Autowired
+	private CategoryRepository categoryRepository;
+	@Autowired
+	private ShippingAddressRepository shippingAddressRepository;
+	@Autowired
+	private PersonRepository personRepository;
+	@Autowired
+	private AddressRepository addressRepository;
+
+	@Autowired
+	private ManufacturerRepository manufacturerRepository;
+
+	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	public static void main(String[] args) {
@@ -56,17 +73,20 @@ public class SpringbootRestEcommerceApplication {
 			Person person2 = new Person("Christopher", "Lopez", new Date(95, 9, 12), "800559503");
 			Person person3 = new Person("Manuu", "Herrera", new Date(98, 11, 12), "005556269");
 			Person person4 = new Person("Marco", "Hernandez", new Date(96, 8, 20), "881200921");
+			personRepository.saveAll(Arrays.asList(person, person2, person3, person4));
 
-			Address address = new Address("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
-			Address address2 = new Address("La colmena", "Iztapalapas", "CdMX", "Mexico", 102030);
-			Address address3 = new Address("La Juanja", "Iztapalapas", "CdMX", "Mexico", 10202);
+			Address address = new Address("Pedregal", "Monterrey", "Nuevo León", "Mexico", 102030);
+			Address address2 = new Address("San pedro", "Guadalupe", "Nuevo León", "Mexico", 102030);
+			Address address3 = new Address("San Agustin", "General Escobedo", "Nuevo León", "Mexico", 102023);
+			addressRepository.saveAll(Arrays.asList(address, address2, address3));
 
 			Category category = new Category("Smartphone", "New");
+			categoryRepository.save(category);
 
 			Manufacturer manufacturer = new Manufacturer("apple", "iphone", "Apple California", "AT&T Mexico");
 
 			Manufacturer manufacturer2 = new Manufacturer("samsung", "Samsung Galaxy", "Samsung", "Telcel Mexico");
-
+			manufacturerRepository.saveAll(Arrays.asList(manufacturer, manufacturer2));
 			Product product1 = new Product("IPhone 14 Pro Max", "El nuevo iphone 14 pro max", category,
 					Arrays.asList("Procesador A16", "6.5 Pulgadas", "256gb", "6gb RAM"), 25000.00, 200,
 					"Space Gray", manufacturer);
@@ -97,16 +117,17 @@ public class SpringbootRestEcommerceApplication {
 			ShippingAddress shippingAddress2 = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico",
 					102030);
 			ShippingAddress shippingAddress3 = new ShippingAddress("La Juanja", "Iztapalapas", "CdMX", "Mexico", 10202);
+			shippingAddressRepository.saveAll(Arrays.asList(shippingAddress, shippingAddress2, shippingAddress3));
 
-			User user1 = new User(person, "carlitos@gmail.com",
+			User user1 = new User(person, "carlos@gmail.com",
 					"$2a$10$Tmz.mt/RjhkJlPAIjoYZ.egr//PVmYuen8EqdiyNZcqAxlEPo7lCq",
 					address, Role.ROLE_USER);
 
-			User user2 = new User(person2, "christo@gmail.com",
+			User user2 = new User(person2, "christopher@gmail.com",
 					"$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
 					address2, Role.ROLE_USER);
 
-			User user3 = new User(person3, "mannuuu1120@gmail.com",
+			User user3 = new User(person3, "mannuuu@gmail.com",
 					"$2a$10$eD2Nl9dEmphhiLGv4xy3NuhFObs3zXPMVUM4S9AGHTDMmAWhxlasW",
 					address3, Role.ROLE_ADMIN);
 

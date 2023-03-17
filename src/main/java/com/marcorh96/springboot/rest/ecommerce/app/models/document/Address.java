@@ -11,6 +11,9 @@ import lombok.Data;
 @Document(collection ="addresses")
 public class Address  implements Serializable{
 
+    @Id
+    private String id;
+
     private String street;
 
     private String city;
