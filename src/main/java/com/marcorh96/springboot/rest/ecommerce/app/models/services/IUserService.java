@@ -17,6 +17,10 @@ public interface IUserService {
 
     public User save(User user);
 
+    public User update(User user);
+
+    public User updatePassword(User user);
+
     public void delete(String id);
 
     public List<User> saveAll(List<User> users);

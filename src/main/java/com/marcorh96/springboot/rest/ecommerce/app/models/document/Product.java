@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.lang.NonNull;
 
 import lombok.Data;
@@ -35,7 +36,6 @@ public class Product implements Serializable {
     @DBRef
     private Category category;
 
-    @NonNull
     private List<String> features;
 
     @NonNull
@@ -51,6 +51,7 @@ public class Product implements Serializable {
     @DBRef
     private Manufacturer manufacturer;
 
+    @JsonIgnore
     private String photo;
 
     

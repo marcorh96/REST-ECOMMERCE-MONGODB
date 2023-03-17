@@ -35,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.marcorh96.springboot.rest.ecommerce.app.models.auth.UserLoginDTO;
 import com.marcorh96.springboot.rest.ecommerce.app.models.auth.UserResponseDTO;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.User;
+import com.marcorh96.springboot.rest.ecommerce.app.models.services.IAddressService;
+import com.marcorh96.springboot.rest.ecommerce.app.models.services.IPersonService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IUserService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.file.IUploadFileService;
 
@@ -44,6 +46,12 @@ public class UserRestController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IPersonService personService;
+
+    @Autowired
+    private IAddressService addressService;
 
     @Autowired
     @Qualifier("upload-users")
@@ -73,6 +81,8 @@ public class UserRestController {
         Map<String, Object> response = new HashMap<>();
         try {
             user.setCreatedAt(new Date());
+            personService.save(user.getPerson());
+            addressService.save(user.getAddress());
             userService.save(user);
         } catch (DataAccessException e) {
             response.put("mensaje", "Data Base Exception!");
@@ -95,6 +105,8 @@ public class UserRestController {
             String photoPastName = user.getPhoto();
             uploadFileService.delete(photoPastName);
             userService.deleteOrdersByUserId(id);
+            personService.delete(user.getPerson().getId());
+            addressService.delete(user.getAddress().getId());
             userService.delete(id);
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");
@@ -114,10 +126,11 @@ public class UserRestController {
             User actualUser = userService.findById(id);
             actualUser.setPerson(user.getPerson());
             actualUser.setEmail(user.getEmail());
-            actualUser.setPassword(user.getPassword());
             actualUser.setAddress(user.getAddress());
-            actualUser.setRole(user.getRole());
-            userService.save(actualUser);
+
+            personService.save(actualUser.getPerson());
+            addressService.save(actualUser.getAddress());
+            userService.update(actualUser);
 
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");
@@ -126,6 +139,24 @@ public class UserRestController {
         }
 
         response.put("message", "User has been updated successfully!");
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/users/{id}/password")
+    @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
+    public ResponseEntity<?> updatePassword(@PathVariable String id, @RequestBody User user) {
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            User actualUser = userService.findById(id);
+            actualUser.setPassword(user.getPassword());
+            userService.updatePassword(actualUser);
+        } catch (DataAccessException e) {
+            response.put("message", "Data Base Exception!");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("message", "Password has been updated successfully!");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 

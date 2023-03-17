@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Order;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IOrderService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IProductService;
+import com.marcorh96.springboot.rest.ecommerce.app.models.services.IShippingAddressService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderRestController {
 
     @Autowired
-    public IOrderService orderService;
+    private IOrderService orderService;
 
     @Autowired
-    public IProductService productService;
+    private IShippingAddressService shippingAddressService;
 
     @GetMapping("/orders")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -57,6 +58,7 @@ public class OrderRestController {
         Order orderNew = null;
         Map<String, Object> response = new HashMap<>();
         try {
+            shippingAddressService.save(order.getShippingAddress());
             orderNew = orderService.save(order);
             orderService.updateStock(orderNew.getItems());
         } catch (DataAccessException e) {
@@ -73,8 +75,10 @@ public class OrderRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteOrder(@PathVariable String id) {
         Map<String, Object> response = new HashMap<>();
+        Order order = null;
         try {
-
+            order = orderService.findById(id);
+            shippingAddressService.delete(order.getShippingAddress().getId());
             orderService.delete(id);
 
         } catch (DataAccessException e) {
@@ -94,7 +98,10 @@ public class OrderRestController {
         Map<String, Object> response = new HashMap<>();
         try {
             Order actualOrder = orderService.findById(id);
+            shippingAddressService.save(order.getShippingAddress());
             actualOrder.setStatus(order.getStatus());
+            actualOrder.setShippingAddress(order.getShippingAddress());
+            orderService.save(actualOrder);
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

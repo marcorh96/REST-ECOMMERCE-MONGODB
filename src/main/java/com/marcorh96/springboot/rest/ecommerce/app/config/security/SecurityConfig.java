@@ -19,8 +19,8 @@ import com.marcorh96.springboot.rest.ecommerce.app.config.jwt.JwtAuthError;
 import com.marcorh96.springboot.rest.ecommerce.app.config.jwt.JwtFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+/* @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true) */
 public class SecurityConfig {
 
     @Autowired
@@ -51,7 +51,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeHttpRequests(authConfig -> {
-            authConfig.requestMatchers("/api/users/login"/* , "/api/**" */).permitAll();
+            authConfig.requestMatchers("/api/users/login", "/api/**" ).permitAll();
             authConfig.requestMatchers("/api/users/signin").permitAll();
             authConfig.anyRequest().authenticated();
         }).exceptionHandling().authenticationEntryPoint(jwtAuthError)

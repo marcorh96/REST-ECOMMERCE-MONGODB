@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.marcorh96.springboot.rest.ecommerce.app.models.document.Product;
+import com.marcorh96.springboot.rest.ecommerce.app.models.services.ICategoryService;
+import com.marcorh96.springboot.rest.ecommerce.app.models.services.IManufacturerService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IProductService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.file.IUploadFileService;
 import com.mongodb.DuplicateKeyException;
@@ -41,6 +43,12 @@ public class ProductRestController {
 
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private IManufacturerService manufacturerService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @Autowired
     @Qualifier("upload-products")
@@ -71,6 +79,8 @@ public class ProductRestController {
         Map<String, Object> response = new HashMap<>();
         try {
             product.setCreatedAt(new Date());
+            categoryService.save(product.getCategory());
+            manufacturerService.save(product.getManufacturer());
             productService.save(product);
         } catch (DuplicateKeyException e) {
             response.put("mensaje", "Error: Email already exists!");
@@ -113,6 +123,7 @@ public class ProductRestController {
         Map<String, Object> response = new HashMap<>();
         Product actualProduct = null;
         try {
+
             actualProduct = productService.findById(id);
             actualProduct.setName(product.getName());
             actualProduct.setDescription(product.getDescription());
@@ -123,6 +134,9 @@ public class ProductRestController {
             actualProduct.setColor(product.getColor());
             actualProduct.setManufacturer(product.getManufacturer());
             actualProduct.setUpdatedAt(new Date());
+
+            categoryService.save(actualProduct.getCategory());
+            manufacturerService.save(actualProduct.getManufacturer());
             productService.save(actualProduct);
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");

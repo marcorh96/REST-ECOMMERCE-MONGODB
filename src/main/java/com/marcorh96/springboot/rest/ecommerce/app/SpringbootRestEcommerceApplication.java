@@ -137,19 +137,19 @@ public class SpringbootRestEcommerceApplication {
 
 			Order order = new Order(
 					user1,
-					Arrays.asList(new OrderItem(product1, 1, shippingAddress)),
-					"Pending");
+					Arrays.asList(new OrderItem(product1, 1)),
+					"Pending", shippingAddress);
 			Order order2 = new Order(
 					user2,
-					Arrays.asList(new OrderItem(product1, 1, shippingAddress2),
-							new OrderItem(product3, 5, shippingAddress2)),
-					"Completed");
+					Arrays.asList(new OrderItem(product1, 1),
+							new OrderItem(product3, 5)),
+					"Completed", shippingAddress2);
 
 			Order order3 = new Order(
 					user3,
-					Arrays.asList(new OrderItem(product2, 2, shippingAddress3),
-							new OrderItem(product1, 1, shippingAddress3)),
-					"In Hold");
+					Arrays.asList(new OrderItem(product2, 2),
+							new OrderItem(product1, 1)),
+					"In Hold", shippingAddress3);
 
 			productService.saveAll(
 					Arrays.asList(product1, product2, product3, product4, product5, product6, product7, product8));
