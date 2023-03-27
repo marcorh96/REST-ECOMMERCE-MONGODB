@@ -69,15 +69,15 @@ public class SpringbootRestEcommerceApplication {
 			 * mongoTemplate.dropCollection("users");
 			 */
 
-			Person person = new Person("Carlos", "Cantu", new Date(96, 0, 22), "809100820");
-			Person person2 = new Person("Christopher", "Lopez", new Date(95, 9, 12), "800559503");
-			Person person3 = new Person("Manuu", "Herrera", new Date(98, 11, 12), "005556269");
-			Person person4 = new Person("Marco", "Hernandez", new Date(96, 8, 20), "881200921");
+			Person person = new Person("Carlos", "Cantu", new Date(96, 0, 22), "8123456787");
+			Person person2 = new Person("Christopher", "Lopez", new Date(95, 9, 12), "8119085673");
+			Person person3 = new Person("Manuu", "Herrera", new Date(98, 11, 12), "8118080460");
+			Person person4 = new Person("Marco", "Hernandez", new Date(96, 8, 20), "8197654360");
 			personRepository.saveAll(Arrays.asList(person, person2, person3, person4));
 
-			Address address = new Address("Pedregal", "Monterrey", "Nuevo León", "Mexico", 102030);
-			Address address2 = new Address("San pedro", "Guadalupe", "Nuevo León", "Mexico", 102030);
-			Address address3 = new Address("San Agustin", "General Escobedo", "Nuevo León", "Mexico", 102023);
+			Address address = new Address("Pedregal", "Monterrey", "Nuevo León", "Mexico", "55096");
+			Address address2 = new Address("San pedro", "Guadalupe", "Nuevo León", "Mexico", "55096");
+			Address address3 = new Address("San Agustin", "General Escobedo", "Nuevo León", "Mexico", "55096");
 			addressRepository.saveAll(Arrays.asList(address, address2, address3));
 
 			Category category = new Category("Smartphone", "New");

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,9 +19,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +40,10 @@ import com.marcorh96.springboot.rest.ecommerce.app.models.services.IPersonServic
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.IUserService;
 import com.marcorh96.springboot.rest.ecommerce.app.models.services.file.IUploadFileService;
 
+import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
+
+@CrossOrigin(origins = { "http://127.0.0.1:5173/", "*" })
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
@@ -75,10 +79,27 @@ public class UserRestController {
         return userService.findById(id);
     }
 
-    @PostMapping("/users/signin")
-    public ResponseEntity<?> createUser(@RequestBody @Validated User user) {
+    @PostMapping("/users/signup")
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
 
         Map<String, Object> response = new HashMap<>();
+        if (userService.existsByEmail(user.getEmail())) {
+            result.rejectValue("email", "duplicate", "already exists!");
+        }
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(err -> {
+                        String field = err.getField();
+                        String[] parts = field.split("(?<=\\.)(?!.*\\.)");
+                        String fieldName = parts.length > 1 ? parts[1] : parts[0];
+                        return "Field '" + fieldName + "' " + err.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+            response.put("errors", errors);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        }
+
         try {
             user.setCreatedAt(new Date());
             personService.save(user.getPerson());
@@ -119,18 +140,36 @@ public class UserRestController {
 
     @PutMapping("/users/{id}")
     @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody User user) {
-
+    public ResponseEntity<?> update(@Valid @RequestBody User user, BindingResult result, @PathVariable String id) {
+        User actualUser = userService.findById(id);
         Map<String, Object> response = new HashMap<>();
+        if (userService.existsByEmail(user.getEmail()) && !user.getEmail().equals(actualUser.getEmail())) {
+            result.rejectValue("email", "duplicate", "already exists!");
+        }
+
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map((err) -> {
+                        String field = err.getField();
+                        String[] parts = field.split("(?<=\\.)(?!.*\\.)");
+                        String fieldName = parts.length > 1 ? parts[1] : parts[0];
+                        return "Field '" + fieldName + "' " + err.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+            response.put("errors", errors);
+            return new ResponseEntity<Map<String, Object>>(response,
+                    HttpStatus.BAD_REQUEST);
+        }
+
         try {
-            User actualUser = userService.findById(id);
+
             actualUser.setPerson(user.getPerson());
             actualUser.setEmail(user.getEmail());
             actualUser.setAddress(user.getAddress());
-
+            userService.update(actualUser);
             personService.save(actualUser.getPerson());
             addressService.save(actualUser.getAddress());
-            userService.update(actualUser);
 
         } catch (DataAccessException e) {
             response.put("message", "Data Base Exception!");
@@ -144,9 +183,23 @@ public class UserRestController {
 
     @PutMapping("/users/{id}/password")
     @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
-    public ResponseEntity<?> updatePassword(@PathVariable String id, @RequestBody User user) {
+    public ResponseEntity<?> updatePassword(@Valid @PathVariable String id, @RequestBody User user,
+            BindingResult result) {
 
         Map<String, Object> response = new HashMap<>();
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map((err) -> {
+                        String field = err.getField();
+                        String[] parts = field.split("(?<=\\.)(?!.*\\.)");
+                        String fieldName = parts.length > 1 ? parts[1] : parts[0];
+                        return "Field '" + fieldName + "' " + err.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+            response.put("errors", errors);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        }
         try {
             User actualUser = userService.findById(id);
             actualUser.setPassword(user.getPassword());

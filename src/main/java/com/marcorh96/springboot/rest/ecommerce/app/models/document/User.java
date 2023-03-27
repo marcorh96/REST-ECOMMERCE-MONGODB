@@ -20,6 +20,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.lang.NonNull;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -29,18 +34,22 @@ public class User implements Serializable, UserDetails {
     @Id
     private String id;
 
-    @NonNull
+    @NotNull(message = "cannot be empty")
+    @Valid
     @DBRef
     private Person person;
 
-    @NonNull
+    @NotEmpty(message = "cannot be empty")
+    @Email(message = "format is invalid")
     @Indexed(unique = true)
     private String email;
 
-    @NonNull
+    @NotNull(message = "cannot be empty")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$", message = "must have at least one uppercase letter, one number, and be at least 8 characters long")
     private String password;
 
-    @NonNull
+    @NotNull(message = "cannot be empty")
+    @Valid
     @DBRef
     private Address address;
 

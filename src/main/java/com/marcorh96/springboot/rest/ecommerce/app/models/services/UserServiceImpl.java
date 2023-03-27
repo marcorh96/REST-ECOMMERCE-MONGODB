@@ -92,6 +92,7 @@ public class UserServiceImpl implements IUserService {
 
         UserResponseDTO userResponse = new UserResponseDTO();
         userResponse.setId(userByEmail.getId());
+        userResponse.setPerson(userByEmail.getPerson());
         userResponse.setEmail(userByEmail.getEmail());
         userResponse.setPassword(userByEmail.getPassword());
         userResponse.setRole(userByEmail.getRole());
@@ -104,6 +105,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
 }

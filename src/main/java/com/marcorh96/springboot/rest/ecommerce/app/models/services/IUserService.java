@@ -30,5 +30,8 @@ public interface IUserService {
     public UserResponseDTO login(UserLoginDTO user);
 
     public Page<User> findAll(Pageable pageable);
+
+    public Boolean existsByEmail(String email);
+
     
 }
