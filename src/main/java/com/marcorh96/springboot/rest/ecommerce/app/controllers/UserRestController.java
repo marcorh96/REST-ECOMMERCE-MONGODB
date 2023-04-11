@@ -139,7 +139,7 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}")
-    @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
+    @PreAuthorize("hasAnyAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
     public ResponseEntity<?> update(@Valid @RequestBody User user, BindingResult result, @PathVariable String id) {
         User actualUser = userService.findById(id);
         Map<String, Object> response = new HashMap<>();
@@ -182,9 +182,8 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}/password")
-    @PreAuthorize("hasAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
-    public ResponseEntity<?> updatePassword(@Valid @PathVariable String id, @RequestBody User user,
-            BindingResult result) {
+    @PreAuthorize("hasAnyAuthority({'ROLE_USER', 'ROLE_ADMIN'})")
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody User user, BindingResult result , @PathVariable String id) {
 
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
@@ -238,7 +237,7 @@ public class UserRestController {
 
             uploadFileService.delete(photoPastName);
             user.setPhoto(nombreArchivo);
-            userService.save(user);
+            userService.update(user);
             response.put("user", user);
             response.put("message", "Image has been uploaded successfully: " + nombreArchivo);
         }

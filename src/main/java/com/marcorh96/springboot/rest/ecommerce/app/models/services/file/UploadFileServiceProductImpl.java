@@ -30,7 +30,7 @@ public class UploadFileServiceProductImpl implements IUploadFileService {
 
         if (!resource.exists() && !resource.isReadable()) {
 
-            filePath = Paths.get("src/main/resources/static/images")
+            filePath = Paths.get("springboot-rest-ecommerce/src/main/resources/static/images")
                     .resolve("no-photo.jpg")
                     .toAbsolutePath();
             resource = new UrlResource(filePath.toUri());

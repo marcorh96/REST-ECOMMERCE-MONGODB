@@ -51,10 +51,8 @@ public class Product implements Serializable {
     @DBRef
     private Manufacturer manufacturer;
 
-    @JsonIgnore
     private String photo;
 
-    
     @Field(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdAt;
@@ -63,7 +61,8 @@ public class Product implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    public Product(String name, String description, Category category, List<String> features,Double price, Integer stock, String color, Manufacturer manufacturer) {
+    public Product(String name, String description, Category category, List<String> features, Double price,
+            Integer stock, String color, Manufacturer manufacturer) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -73,6 +72,21 @@ public class Product implements Serializable {
         this.color = color;
         this.manufacturer = manufacturer;
         this.createdAt = new Date();
+
+    }
+
+    public Product(String name, String description, Category category, List<String> features, Double price,
+            Integer stock, String color, Manufacturer manufacturer, String photo) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.features = features;
+        this.price = price;
+        this.stock = stock;
+        this.color = color;
+        this.manufacturer = manufacturer;
+        this.createdAt = new Date();
+        this.photo = photo;
 
     }
 

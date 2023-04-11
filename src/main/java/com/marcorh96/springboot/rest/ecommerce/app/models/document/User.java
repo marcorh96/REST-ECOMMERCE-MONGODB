@@ -60,8 +60,7 @@ public class User implements Serializable, UserDetails {
     @Field(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdAt;
-
-    @JsonIgnore
+    
     private String photo;
 
     public User() {
@@ -80,6 +79,7 @@ public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         GrantedAuthority authority = new SimpleGrantedAuthority(role.name());
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -88,26 +88,31 @@ public class User implements Serializable, UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

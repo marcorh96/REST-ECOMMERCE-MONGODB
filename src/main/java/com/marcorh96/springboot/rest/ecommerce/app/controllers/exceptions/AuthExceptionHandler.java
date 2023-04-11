@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,13 +57,25 @@ public class AuthExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
-    
-
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            // El usuario está autenticado pero no tiene acceso
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("timestamp", LocalDateTime.now());
+            body.put("status", HttpStatus.FORBIDDEN.value());
+            body.put("error", HttpStatus.FORBIDDEN.getReasonPhrase());
+            body.put("message", "You don't have permission to access this resource.");
+            return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+        } else {
+            // El usuario no está autenticado
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("timestamp", LocalDateTime.now());
+            body.put("status", HttpStatus.UNAUTHORIZED.value());
+            body.put("error", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            body.put("message", "You must be authenticated to access this resource.");
+            return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
