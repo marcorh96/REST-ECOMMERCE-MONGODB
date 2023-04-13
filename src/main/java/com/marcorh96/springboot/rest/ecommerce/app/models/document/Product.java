@@ -61,6 +61,8 @@ public class Product implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
+    private String sold;
+
     public Product(String name, String description, Category category, List<String> features, Double price,
             Integer stock, String color, Manufacturer manufacturer) {
         this.name = name;
@@ -76,7 +78,7 @@ public class Product implements Serializable {
     }
 
     public Product(String name, String description, Category category, List<String> features, Double price,
-            Integer stock, String color, Manufacturer manufacturer, String photo) {
+            Integer stock, String color, Manufacturer manufacturer, String photo, String sold) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -87,7 +89,7 @@ public class Product implements Serializable {
         this.manufacturer = manufacturer;
         this.createdAt = new Date();
         this.photo = photo;
-
+        this.sold = sold;
     }
 
     private static final long serialVersionUID = 1L;

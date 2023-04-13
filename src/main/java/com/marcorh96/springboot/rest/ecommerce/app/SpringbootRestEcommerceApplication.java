@@ -89,31 +89,31 @@ public class SpringbootRestEcommerceApplication {
 			manufacturerRepository.saveAll(Arrays.asList(manufacturer, manufacturer2));
 			Product product1 = new Product("IPhone 14 Pro Max", "El nuevo iphone 14 pro max", category,
 					Arrays.asList("Procesador A16", "6.5 Pulgadas", "256gb", "6gb RAM"), 25000.00, 200,
-					"Space Gray", manufacturer, "iphone14-pro-max.jpg");
-			Product product2 = new Product("IPhone 13 Pro Max", "El viejo iphone 13 pro max", category,
+					"Space Gray", manufacturer, "iphone14-pro-max.jpg", "+1000");
+			Product product2 = new Product("IPhone 13 Pro Max", "El iPhone 13 Pro Max es el último y más avanzado smartphone de Apple. Con una pantalla Super Retina XDR de 6.7 pulgadas y una resolución de 2778 x 1284 píxeles, podrás disfrutar de imágenes nítidas y vibrantes en todo momento. Además, cuenta con un sistema de cámaras profesionales con tecnología avanzada de fotografía computacional que te permitirá capturar fotos y videos increíblemente detallados y realistas. La cámara principal es de 12 megapíxeles con una apertura de ƒ/1.5 y otra de ultra gran angular de 12 megapíxeles con una apertura de ƒ/2.4. También tiene una cámara teleobjetivo de 12 megapíxeles con una apertura de ƒ/2.8. El iPhone 13 Pro Max también cuenta con el chip A15 Bionic, el más potente y rápido que ha creado Apple, lo que significa que podrás ejecutar aplicaciones complejas y realizar tareas de alta exigencia sin problemas. Otras características incluyen 5G de alta velocidad, una batería de larga duración, una mayor resistencia al agua y al polvo, un diseño elegante y moderno, y una experiencia de usuario excepcional gracias a la última versión del sistema operativo iOS. En resumen, el iPhone 13 Pro Max es el teléfono inteligente perfecto para aquellos que buscan lo último en tecnología y desean tener lo mejor de lo mejor en cuanto a rendimiento, calidad de imagen y funciones avanzadas de cámara. ¡No te lo pierdas!", category,
 					Arrays.asList("Procesador A15", "6.5 Pulgadas", "256gb", "5gb RAM"), 20000.00, 50,
-					"Black Space", manufacturer, "iphone13-pro-max.jpg");
+					"Black Space", manufacturer, "iphone13-pro-max.jpg", "+2500");
 			Product product3 = new Product("IPhone 12 Pro Max", "El nuevo iphone 12 pro max", category,
 					Arrays.asList("Procesador A14", "6.25 Pulgadas", "128gb", "4gb RAM"), 12500.00, 100,
-					"Red", manufacturer, "iphone12-pro-max.jpg");
+					"Red", manufacturer, "iphone12-pro-max.jpg", "+900");
 			Product product4 = new Product("IPhone 11 Pro Max", "El nuevo iphone 11 pro max", category,
 					Arrays.asList("Procesador A13", "6 Pulgadas", "64gb", "4gb RAM"), 10000.00, 10,
-					"Dark blue", manufacturer, "iphone11-pro-max.jpg");
+					"Dark blue", manufacturer, "iphone11-pro-max.jpg", "+1500");
 			Product product5 = new Product("Samsung s23 Plus Ultra", "El nuevo samsung s23 plus ultra", category,
 					Arrays.asList("Procesador SnapDragon 865", "7 Pulgadas", "512gb", "12gb RAM"),
-					25000.00, 200, "Purple", manufacturer2, "samsung-s23-ultra.png");
+					25000.00, 200, "Purple", manufacturer2, "samsung-s23-ultra.png", "1300+");
 			Product product6 = new Product("Samsung s22 Plus Ultra", "El nuevo samsung s22 plus ultra", category,
 					Arrays.asList("Procesador SnapDragon 855", "6.5 Pulgadas", "256gb", "8gb RAM"),
-					20000.00, 150, "White", manufacturer2, "samsung-s22-ultra.png");
+					20000.00, 150, "White", manufacturer2, "samsung-s22-ultra.png", "+200");
 			Product product7 = new Product("Samsung s21 Plus Ultra", "El nuevo samsung s21 plus ultra", category,
 					Arrays.asList("Procesador SnapDragon 845", "6.48 Pulgadas", "128gb", "6gb RAM"),
-					12500.00, 100, "Black", manufacturer2, "samsung-s21-ultra.png");
+					12500.00, 100, "Black", manufacturer2, "samsung-s21-ultra.png", "+100");
 			Product product8 = new Product("Samsung s20 Plus Ultra", "El nuevo samsung s20 plus ultra", category,
 					Arrays.asList("Procesador SnapDragon 825", "6.2 Pulgadas", "64gb", "4gb RAM"),
-					10000.00, 10, "Dark blue", manufacturer2, "samsung-s20-ultra.png");
+					10000.00, 10, "Dark blue", manufacturer2, "samsung-s20-ultra.png", "+1000");
 			Product product9 = new Product("Samsung s20 Plus Ultra", "El nuevo samsung s20 plus ultra", category,
 					Arrays.asList("Procesador SnapDragon 825", "6.2 Pulgadas", "64gb", "4gb RAM"),
-					10000.00, 10, "Dark blue", manufacturer2, "samsung-s21-ultra.png");
+					10000.00, 10, "Dark blue", manufacturer2, "samsung-s21-ultra.png", "+5000");
 
 			ShippingAddress shippingAddress = new ShippingAddress("La colmena", "Iztapalapas", "CdMX", "Mexico",
 					102030);
